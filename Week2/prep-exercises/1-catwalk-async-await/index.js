@@ -9,44 +9,43 @@ const DANCING_CAT_URL =
 function walk(img, startPos, stopPos) {
  return new Promise((resolve) => {
     let currentPos = startPos;
+    const walkInterval = setInterval(() => {
+      
+    currentPos += STEP_SIZE_PX;
+    img.style.left = currentPos + 'px';
 
-    const walkStep = () => { 
-      if (currentPos < stopPos) {
-        currentPos += STEP_SIZE_PX;
-        img.style.left = currentPos + 'px';
-        setTimeout(walkStep, STEP_INTERVAL_MS); 
-      } else {
-        resolve();
-      }
-    };
-
-    walkStep();
+    if (currentPos >= stopPos) { 
+      clearInterval(walkInterval);
+      resolve();
+    }
+    }, STEP_INTERVAL_MS);
   });
 }
 
 function dance(img) {
-  return new Promise((resolve) => {
-    const walkingCatSrc = img.src;
-    img.src = DANCING_CAT_URL;
-
-    setTimeout(() => {
-      img.src = walkingCatSrc;
-      resolve();
-    }, DANCE_TIME_MS);
-  });
+ return new Promise((resolve) => {
+     const originalSrc = img.src;
+      img.src = DANCING_CAT_URL;
+      setTimeout( ()=> {
+        img.src = originalSrc;
+        resolve ();
+      }, DANCE_TIME_MS);
+    });
 }
 
-async function catWalk() {
+ async function  catWalk () {
   const img = document.querySelector('img');
   const startPos = -img.width;
   const centerPos = (window.innerWidth - img.width) / 2;
   const stopPos = window.innerWidth;
-const catWalkAndDance=async ()=>{
-  await walk(img,startPost,centerPost).then(()=>dance(img))
-.then(()=>walk(img,centerPos,stopPos))
-.then(catWalkAndDance)
-}
-  // Use async/await syntax to loop the walk and dance functions
+
+// Use async/await syntax to loop the walk and dance functions
+
+    await walk(img, startPos, centerPos)
+    await dance(img)
+    await walk (img,centerPos, stopPos)
+    await catWalk();
+
 }
 
 window.addEventListener('load', catWalk);
