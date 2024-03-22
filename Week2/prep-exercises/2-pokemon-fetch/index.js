@@ -66,12 +66,9 @@ function renderError(err) {
     //  data.then(renderResults)
 // On failure, render the error by calling function `renderError()`.
     //  .catch(renderError)
-    const getData =async ()=>{
-      await fetchJSON(url)
+       fetchJSON(url)
        .then((pokemons)=>renderResults(pokemons.results))
        .catch((er)=>renderError(er))
-    }
-     getData()
   });
 }
 
