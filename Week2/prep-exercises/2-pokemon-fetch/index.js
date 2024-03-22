@@ -22,8 +22,6 @@ const pokemons =await fetch(url)
 .then(res=> res.json())
 .catch((er)=>renderError(er))
  return pokemons
-// .then((res)=>res.json())
-
   // Fetch the JSON data from the web API that responds to the `url` parameter
   // and return a promise that resolves to a corresponding JavaScript object.
   // Make sure to check for HTTP errors.
